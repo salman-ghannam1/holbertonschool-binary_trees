@@ -1,20 +1,48 @@
-# Project Title
+# Binary Trees
 
-## Description
-This project is part of the ALX/Holberton School curriculum.  
-It aims to introduce students to the fundamentals of the C programming language,  
-including compilation stages, syntax, and standard library functions.
+## 📌 Description
+This project focuses on understanding and implementing **Binary Trees** using the C programming language.  
+It explores tree structures, node relationships, recursion, and tree traversal algorithms while adhering to the **Holberton/ALX Betty coding style**.
 
-## Files
-| Filename | Description |
-|-----------|--------------|
-| `0-preprocessor` | Runs a C file through the preprocessor and saves the result into another file. |
-| `1-compiler` | Compiles a C file but does not link. |
-| `2-assembler` | Generates the assembly code of a C file and saves it in an output file. |
-| `3-name` | Compiles a C file and creates an executable named `cisfun`. |
-| `4-puts.c` | Prints a string using `puts()`. |
+---
 
-## Requirements
-- All files are compiled on **Ubuntu 20.04 LTS** using `gcc` with the following options:
-  ```bash
-  gcc -Wall -Werror -Wextra -pedantic
+## 🌳 What is a Binary Tree?
+A binary tree is a hierarchical data structure in which:
+- Each node has **at most two children**
+- The children are referred to as **left** and **right**
+- Each node may have a pointer to its **parent**
+
+---
+
+## 🧠 Concepts Covered
+- Binary tree structure
+- Parent, child, sibling, and uncle relationships
+- Recursion
+- Tree traversal techniques
+- Height, depth, and balance factor
+- Full and perfect binary trees
+- Memory management
+- Clean and readable C code
+
+---
+
+## 🛠 Data Structure
+
+```c
+/**
+ * struct binary_tree_s - Binary tree node
+ *
+ * @n: Integer stored in the node
+ * @parent: Pointer to the parent node
+ * @left: Pointer to the left child
+ * @right: Pointer to the right child
+ */
+struct binary_tree_s
+{
+	int n;
+	struct binary_tree_s *parent;
+	struct binary_tree_s *left;
+	struct binary_tree_s *right;
+};
+
+typedef struct binary_tree_s binary_tree_t;
