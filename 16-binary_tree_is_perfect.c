@@ -1,48 +1,51 @@
 #include "binary_trees.h"
 
 /**
- * is_full - Checks if a binary tree is full (helper)
- * @tree: Pointer to the root node of the tree
+ * leaf_depth - Gets the depth of the leftmost leaf
+ * @tree: Pointer to the root node
  *
- * Return: 1 if full, otherwise 0
+ * Return: Depth of the leftmost leaf
  */
-static int is_full(const binary_tree_t *tree)
+static size_t leaf_depth(const binary_tree_t *tree)
+{
+	size_t depth = 0;
+
+	while (tree != NULL)
+	{
+		if (tree->left != NULL)
+			tree = tree->left;
+		else if (tree->right != NULL)
+			tree = tree->right;
+		else
+			break;
+
+		depth++;
+	}
+
+	return (depth);
+}
+
+/**
+ * is_perfect - Checks if a binary tree is perfect (helper)
+ * @tree: Pointer to the current node
+ * @leaf_d: Expected depth of all leaves
+ * @level: Current level (depth) from the root
+ *
+ * Return: 1 if perfect, otherwise 0
+ */
+static int is_perfect(const binary_tree_t *tree, size_t leaf_d, size_t level)
 {
 	if (tree == NULL)
-		return (0);
+		return (1);
 
 	if (tree->left == NULL && tree->right == NULL)
-		return (1);
+		return (level == leaf_d);
 
 	if (tree->left == NULL || tree->right == NULL)
 		return (0);
 
-	return (is_full(tree->left) && is_full(tree->right));
-}
-
-/**
- * height_edges - Measures height in edges (helper)
- * @tree: Pointer to the root node of the tree
- *
- * Return: Height of the tree (edges), 0 if tree is NULL
- */
-static size_t height_edges(const binary_tree_t *tree)
-{
-	size_t left_h, right_h;
-
-	if (tree == NULL)
-		return (0);
-
-	if (tree->left == NULL && tree->right == NULL)
-		return (0);
-
-	left_h = height_edges(tree->left);
-	right_h = height_edges(tree->right);
-
-	if (left_h > right_h)
-		return (left_h + 1);
-
-	return (right_h + 1);
+	return (is_perfect(tree->left, leaf_d, level + 1) &&
+			is_perfect(tree->right, leaf_d, level + 1));
 }
 
 /**
@@ -53,20 +56,11 @@ static size_t height_edges(const binary_tree_t *tree)
  */
 int binary_tree_is_perfect(const binary_tree_t *tree)
 {
-	size_t left_h, right_h;
+	size_t d;
 
 	if (tree == NULL)
 		return (0);
 
-	if (is_full(tree) == 0)
-		return (0);
-
-	left_h = height_edges(tree->left);
-	right_h = height_edges(tree->right);
-
-	if (left_h != right_h)
-		return (0);
-
-	return (binary_tree_is_perfect(tree->left) &&
-			binary_tree_is_perfect(tree->right));
+	d = leaf_depth(tree);
+	return (is_perfect(tree, d, 0));
 }
